@@ -6,7 +6,7 @@ It's more a "proof of concept" to show that an home-made shell script is often
 better that generic tool like Capistrano (great tool) or Fredistrano.
 Evolistrano has killer-features like deployment on several WWW servers
 with *instant* deployment if you have a load-balancer like HAProxy,
-incremental storage on WWW server to server multiples version of your code,
+incremental storage on WWW server to keep multiples version of your code,
 calculate available space before uploading, etc.
 
 
@@ -29,7 +29,7 @@ INSTALLATION
 On dev server
 ~~~~~~~~~~~~~
 
-* Download evolistrano from git://git.evolix.org/git/evolistrano.git
+* Download Evolistrano from git://git.evolix.org/git/evolistrano.git
 
 * Copy evolistrano/ where you want and secure rights
   (for example, add "deploy" group, and authorize
@@ -92,9 +92,9 @@ A: Probably, but we don't test it. If you do, let us know if it works.
 Q: Which language is used for Evolistrano?
 A: Shell.
 
-Q: What are the depends for Capistrano?
+Q: What are the depends for Evolistrano?
 A: Shell, SVN client, SSH client, rsync.
-    Written for Linux, but you can use it on *BSD with some changes.
+    Written for Linux, but you can use it on *BSD with few changes.
 
 Q: Your tool is just 1% of Capistrano, why you do this crap?
 A: Use Capistrano.
