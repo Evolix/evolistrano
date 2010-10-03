@@ -29,7 +29,7 @@ INSTALLATION
 On dev server
 ~~~~~~~~~~~~~
 
-* Download evolistrano on http://git.evolix.org
+* Download evolistrano from git://git.evolix.org/git/evolistrano.git
 
 * Copy evolistrano/ where you want and secure rights
   (for example, add "deploy" group, and authorize
@@ -77,9 +77,6 @@ USAGE
 
 Deploy for preproduction:
 % evolistrano.sh <SVN revision>
-
-Deploy your static files:
-% evolistrano.sh -S
 
 Deploy for production:
 % evolistrano.sh -P <SVN revision>
