@@ -1,0 +1,111 @@
+Evolistrano
+~~~~~~~~~~~
+
+Evolistrano is a small tool for source code deployment on several WWW servers.
+It's more a "proof of concept" to show that an home-made shell script is often
+better that generic tool like Capistrano (great tool) or Fredistrano.
+Evolistrano has killer-features like deployment on several WWW servers
+with *instant* deployment if you have a load-balancer like HAProxy,
+incremental storage on WWW server to server multiples version of your code,
+calculate available space before uploading, etc.
+
+
+                                  ____ WWW server 0 (preprod & prod)
+                                 /  ___WWW server 1 (preprod & prod)
+                                /  / __WWW server 2 (preprod & prod)
+Dev server                     /  / /
+(SVN, SSH, --> Evolistrano -->--------
+ etc.)                                \ ___WWW static server 0
+                                       \___WWW static server 1 
+                                         
+
+svn:// -> $subdocroot/{prod,preprod}/current
+svn:// $staticfilesdir -> $subdocroot/static
+
+
+INSTALLATION
+------------
+
+On dev server
+~~~~~~~~~~~~~
+
+* Download evolistrano on http://git.evolix.org
+
+* Copy evolistrano/ where you want and secure rights
+  (for example, add "deploy" group, and authorize
+  only this group to access it => to allow deployment,
+  we just had the user on this group!)
+
+* Generate an SSH key, for example:
+  ssh-keygen -f deploy.key
+  ... and ajust rights because SSH is very strict:
+  chown root:deploy deploy.key*
+  chmod 640 deploy.key.*
+
+* Read and configure evolistrano.conf file
+
+* You have probably specific files which are not in repository
+  (for example conf file)... then centralize them here and
+  edit section "Deploy conf files" in evolistrano.sh
+
+* You need also probably specific rights on you source code
+  (for example adding write permission)... then
+  edit section "UNIX rights" in evolistrano.sh
+
+* If you need specific actions on WWW servers or whatever
+  (SQL updates, etc.)... just edit sectionS "ADD SPECIFIC ACTIONS"
+
+On remote servers
+~~~~~~~~~~~~~~~~~
+
+* Add "deploy" et "deploy-preprod" users on your WWW servers
+  and "deploy" user on your static servers. Users should
+  be in www group for adding easily write permissions!
+  And add with authorization for new SSH key.
+
+* Point DocumentRoot to $subdocroot/prod/current
+  on your WWW servers for production and to
+  $subdocrootpre/prod/current for preproduction
+
+* Point DocumentRoot to $subdocroot/static
+  on your static servers
+
+
+
+USAGE
+-----
+
+Deploy for preproduction:
+% evolistrano.sh <SVN revision>
+
+Deploy your static files:
+% evolistrano.sh -S
+
+Deploy for production:
+% evolistrano.sh -P <SVN revision>
+
+
+
+FAQ
+---
+
+Q: Can I have remote SVN?
+A: Probably, but we don't test it. If you do, let us know if it works.
+
+Q: Which language is used for Evolistrano?
+A: Shell.
+
+Q: What are the depends for Capistrano?
+A: Shell, SVN client, SSH client, rsync.
+    Written for Linux, but you can use it on *BSD with some changes.
+
+Q: Your tool is just 1% of Capistrano, why you do this crap?
+A: Use Capistrano.
+
+Q: Is your tool production-ready?
+A: We use it on production environment, but you can't use it without read source code
+   to be sure it will do the job.
+
+Q: Evolistrano lacks of foo feature.
+A: Send us patch.
+
