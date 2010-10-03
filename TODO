@@ -1,0 +1,3 @@
+- Clean old deployment on remote servers
+- Git support
+- Amazon S3/CloudFront support for static files

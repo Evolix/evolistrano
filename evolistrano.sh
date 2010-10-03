@@ -94,11 +94,11 @@ echo
 
 #set +e
 
+local_space=`du -sm $dir_export/ | sed 's/^\([0-9]\+\)\t.*$/\1/'`
 # Deploy on WWW servers
 for remote in $wwwlist; do
 
     # Be sure to have space for deploying
-    local_space=`du -sm $dir_export/ | sed 's/^\([0-9]\+\)\t.*$/\1/'`
     remote_space=`ssh -p $sshport -o UserKnownHostsFile=$full_path/known_hosts -i $full_path/$sshkey $sshuser@$remote df -lPm $subdocroot | grep ^/ | tr -s " " | cut -d" " -f4`
     if [ $local_space -ge $remote_space ]; then echo "WARNING... $remote has only $remote_space Mo while you want upload $local_space Mo. Do you want stop ? [y/N]"; read_confirm; fi 
 
@@ -123,12 +123,11 @@ for remote in $wwwlist; do
 
 done
 
+local_space=`du -sm $dir_export/$staticfilesdir | sed 's/^\([0-9]\+\)\t.*$/\1/'`
 for remote in $staticlist; do
 
-    #TODO: calculer la taille de la destination (df $subdocroot) && pas de deploiement si cela depasse !!
     # Be sure to have space for deploying
-    local_space=`du -sm $dir_export/www/static/ | sed 's/^\([0-9]\+\)\t.*$/\1/'`
-    remote_space=`ssh -p $sshport -o UserKnownHostsFile=$full_path/known_hosts -i $full_path/$sshkey $sshuser@$remote df -lPm /var/www/$staticdestdir | grep ^/ | tr -s " " | cut -d" " -f4`
+    remote_space=`ssh -p $sshport -o UserKnownHostsFile=$full_path/known_hosts -i $full_path/$sshkey $sshuser@$remote df -lPm $subdocroot | grep ^/ | tr -s " " | cut -d" " -f4`
     if [ $local_s -ge $remote_s ]; then echo "WARNING... $remote has only $remote_s Mo while you want upload $local_s Mo : stop deploy now with Ctrl+C"; read enter; fi 
 
     echo "sending static on $remote"
